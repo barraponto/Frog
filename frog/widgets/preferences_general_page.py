@@ -50,7 +50,6 @@ class PreferencesGeneralPage(Adw.PreferencesPage):
 
         self.settings.bind('autocopy', self.autocopy_switch, 'active', Gio.SettingsBindFlags.DEFAULT)
         self.settings.bind('autolinks', self.autolinks_switch, 'active', Gio.SettingsBindFlags.DEFAULT)
-        self.settings.bind('telemetry', self.telemetry_switch, 'active', Gio.SettingsBindFlags.DEFAULT)
 
         downloaded_langs = language_manager.get_downloaded_languages()
         # Fill second language
@@ -59,6 +58,9 @@ class PreferencesGeneralPage(Adw.PreferencesPage):
             language_manager.get_language(self.settings.get_string('extra-language')))
         self.extra_language_combo.set_selected(extra_language_index)
         self.extra_language_combo.connect('notify::selected-item', self._on_extra_language_changed)
+        # Disable telemetry
+        self.telemetry_switch.set_active(False)
+        self.telemetry_switch.set_sensitive(False)
 
     def do_show(self, *args, **kwargs):
         telemetry.capture_page_view('preferences_general')
